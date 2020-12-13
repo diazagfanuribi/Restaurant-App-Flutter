@@ -16,17 +16,22 @@ class ListRestaurant extends StatelessWidget {
         future: DefaultAssetBundle.of(context)
             .loadString("assets/local_restaurant.json"),
         builder: (context, snapshot) {
-          final List<Restaurant> restaurants = resultFromJson(snapshot.data);
-          if (restaurants.length == null) {
-            print("object");
-            return Text("Loading");
-          } else {
-            return ListView.builder(
-                itemCount: restaurants.length,
-                itemBuilder: (context, index) {
-                  return _buildRestaurantItem(context, restaurants[index]);
-                });
+          if (snapshot.hasData) {
+            final List<Restaurant> restaurants = resultFromJson(snapshot.data);
+            if (restaurants.length == null) {
+              print("object");
+              return Text("Loading");
+            } else {
+              return ListView.builder(
+                  itemCount: restaurants.length,
+                  itemBuilder: (context, index) {
+                    return _buildRestaurantItem(context, restaurants[index]);
+                  });
+            }
+          } else if (snapshot.hasError) {
+            return new Text("${snapshot.error}");
           }
+          return Center(child: CircularProgressIndicator());
         },
       ),
     );
