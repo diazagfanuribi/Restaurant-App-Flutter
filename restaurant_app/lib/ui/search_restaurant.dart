@@ -1,69 +1,100 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/data/restaurant.dart';
+import 'package:restaurant_app/data/search_result.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
-import 'package:restaurant_app/ui/detail_restaurant.dart';
 import 'package:restaurant_app/widgets/error_handling.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
-class ListRestaurant extends StatelessWidget {
-  static const routeName = '/list_restaurant';
+import 'detail_restaurant.dart';
 
-  Widget _buildList() {
-    return Consumer<RestaurantProvider>(
-      builder: (context, state, _) {
-        if (state.state == ResultState.Loading) {
-          return Center(child: CircularProgressIndicator());
-        } else if (state.state == ResultState.HasData) {
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: state.result.restaurants.length,
-            itemBuilder: (context, index) {
-              var restaurant = state.result.restaurants[index];
-              return _buildRestaurantItem(context, restaurant);
-            },
-          );
-        } else if (state.state == ResultState.NoData) {
-          return Center(child: Text(state.message));
-        } else if (state.state == ResultState.Error) {
-          return Center(child: Text(state.message));
-        } else {
-          return Center(child: Text(''));
-        }
-      },
-    );
+class SearchRestaurant extends StatefulWidget {
+  const SearchRestaurant({Key key}) : super(key: key);
+
+  @override
+  _SearchRestaurantState createState() => _SearchRestaurantState();
+}
+
+class _SearchRestaurantState extends State<SearchRestaurant> {
+  TextEditingController editingController = TextEditingController();
+
+  void _searchText(BuildContext context, String query) async {
+    setState(() {
+      Provider.of<RestaurantProvider>(context, listen: false)
+          .fetchSearchRestaurant(query);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Home'),
+          title: Text('Search'),
         ),
-        body: FutureBuilder(
-          future: Provider.of<RestaurantProvider>(context, listen: false)
-              .fetchAllRestaurant(),
-          builder: (context, snapshot) {
-            var state = snapshot.connectionState;
-            if (state == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else {
-              return Consumer<RestaurantProvider>(builder: (context, state, _) {
-                if (state.state == ResultState.HasData) {
-                  return _buildList();
-                } else if (state.state == ResultState.NoData) {
-                  return ErrorHandling(
-                      state.message, "assets/images/search_meal.png");
-                } else if (state.state == ResultState.Error) {
-                  return ErrorHandling(
-                      state.message, "assets/images/search_meal.png");
-                } else {
-                  return ErrorHandling('', "assets/images/search_meal.png");
-                }
-              });
-            }
-          },
+        body: Container(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextField(
+                  onChanged: (value) {
+                    _searchText(context, value);
+                  },
+                  controller: editingController,
+                  decoration: InputDecoration(
+                      labelText: "Search",
+                      hintText: "Search",
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(25.0)))),
+                ),
+              ),
+              Expanded(child: _searchQuery())
+            ],
+          ),
         ));
+  }
+
+  Widget _buildList() {
+    return Consumer<RestaurantProvider>(
+      builder: (context, state, _) {
+        if (state.state == ResultState.Loading) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state.state == ResultState.NoData) {
+          return ErrorHandling(state.message, "assets/images/search_meal.png");
+        } else if (state.state == ResultState.HasData) {
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: state.search.restaurants.length,
+            itemBuilder: (context, index) {
+              var restaurant = state.search.restaurants[index];
+              return _buildRestaurantItem(context, restaurant);
+            },
+          );
+        } else if (state.state == ResultState.Error) {
+          return ErrorHandling(state.message, "assets/images/search_meal.png");
+        } else {
+          return ErrorHandling(state.message, "assets/images/search_meal.png");
+        }
+      },
+    );
+  }
+
+  Widget _searchQuery() {
+    return editingController.text == ""
+        ? Center(
+            child: Column(
+            children: [
+              Spacer(),
+              Image(
+                image: AssetImage('assets/images/salad.jpg'),
+                width: 200,
+              ),
+              Text("Belum ada Pencarian"),
+              Spacer()
+            ],
+          ))
+        : _buildList();
   }
 
   Widget _buildRestaurantItem(BuildContext context, Restaurant restaurant) {
