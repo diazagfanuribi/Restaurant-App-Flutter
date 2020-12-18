@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/ui/list_restaurant.dart';
+import 'package:restaurant_app/ui/home_page.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,10 +14,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(
-        Duration(seconds: 3),
-        () =>
-            Navigator.pushReplacementNamed(context, ListRestaurant.routeName));
+    Timer(Duration(seconds: 3),
+        () => Navigator.pushReplacementNamed(context, HomePage.routeName));
   }
 
   @override
