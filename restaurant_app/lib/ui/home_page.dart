@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service..dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/ui/favorite_restaurant.dart';
 import 'package:restaurant_app/ui/profile.dart';
 import 'package:restaurant_app/ui/search_restaurant.dart';
+import 'package:restaurant_app/utils/background_service.dart';
+import 'package:restaurant_app/utils/notification_helper.dart';
 
 import 'list_restaurant.dart';
 
@@ -17,6 +20,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
+  final BackgroundService _service = BackgroundService();
   int _bottomNavIndex = 0;
 
   List<Widget> _listWidget = [
@@ -29,7 +34,10 @@ class _HomePageState extends State<HomePage> {
       create: (_) => RestaurantProvider(apiService: ApiService()),
     ),
     FavoriteRestaurant(),
-    Profile()
+    ChangeNotifierProvider<SchedulingProvider>(
+      create: (_) => SchedulingProvider(),
+      child: Profile(),
+    )
   ];
 
   List<BottomNavigationBarItem> _bottomNavBarItems = [
@@ -69,5 +77,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return _buildAndroid(context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    port.listen((_) async => await _service.someTask());
+    _notificationHelper
+        .configureSelectNotificationSubject(ListRestaurant.routeName);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    selectNotificationSubject.close();
   }
 }

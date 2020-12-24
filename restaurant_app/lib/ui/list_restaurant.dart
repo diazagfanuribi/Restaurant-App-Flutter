@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/restaurant.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/ui/detail_restaurant.dart';
@@ -124,8 +125,7 @@ class ListRestaurant extends StatelessWidget {
         ],
       ),
       onTap: () {
-        Navigator.pushNamed(context, RestaurantDetail.routeName,
-            arguments: restaurant.id);
+        Navigation.intentWithData(RestaurantDetail.routeName, restaurant.id);
       },
     );
   }
