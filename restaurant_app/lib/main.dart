@@ -17,8 +17,6 @@ import 'package:restaurant_app/ui/splash_screen.dart';
 import 'package:restaurant_app/utils/background_service.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqlite_api.dart';
-
 import 'common/navigation.dart';
 import 'data/api/api_service..dart';
 import 'db/database_helper.dart';

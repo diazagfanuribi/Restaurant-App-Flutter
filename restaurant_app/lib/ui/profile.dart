@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/provider/preferences_provider.dart';
 import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/widgets/custom_dialog.dart';
-import 'package:restaurant_app/widgets/error_handling.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key key}) : super(key: key);

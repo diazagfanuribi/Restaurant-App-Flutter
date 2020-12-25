@@ -20,7 +20,7 @@ class DatabaseHelper {
   Future<Database> _initializeDb() async {
     var path = await getDatabasesPath();
     var db = openDatabase(
-      '$path/newsapp.db',
+      '$path/app.db',
       onCreate: (db, version) async {
         await db.execute('''CREATE TABLE $_tblBookmark (
              id TEXT PRIMARY KEY,

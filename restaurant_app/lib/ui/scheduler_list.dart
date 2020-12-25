@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/restaurant.dart';
-import 'package:restaurant_app/ui/home_page.dart';
 import 'package:restaurant_app/widgets/list_tile_restaurant.dart';
 
 class SchedulerList extends StatelessWidget {

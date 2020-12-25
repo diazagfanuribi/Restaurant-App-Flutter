@@ -6,15 +6,15 @@ class PreferencesHelper {
 
   PreferencesHelper({@required this.sharedPreferences});
 
-  static const DAILY_NEWS = 'DAILY_NEWS';
+  static const DAILY_UPDATE = 'DAILY_UPDATE';
 
   Future<bool> get isDailyNewsActive async {
     final prefs = await sharedPreferences;
-    return prefs.getBool(DAILY_NEWS) ?? false;
+    return prefs.getBool(DAILY_UPDATE) ?? false;
   }
 
   void setDailyNews(bool value) async {
     final prefs = await sharedPreferences;
-    prefs.setBool(DAILY_NEWS, value);
+    prefs.setBool(DAILY_UPDATE, value);
   }
 }

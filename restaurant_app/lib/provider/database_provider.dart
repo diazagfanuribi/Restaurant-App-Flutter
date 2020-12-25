@@ -32,7 +32,6 @@ class DatabaseProvider extends ChangeNotifier {
 
   void addBookmark(Restaurant restaurant) async {
     try {
-      print("Executing");
       await databaseHelper.insertBookmark(restaurant);
       _getBookmarks();
     } catch (e) {
@@ -44,7 +43,6 @@ class DatabaseProvider extends ChangeNotifier {
 
   Future<bool> isBookmarked(String id) async {
     final bookmarkedArticle = await databaseHelper.getBookmarkById(id);
-    print(bookmarkedArticle.toString());
     return bookmarkedArticle.isNotEmpty;
   }
 
