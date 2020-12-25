@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/search_result.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/utils/result_state.dart';
 import 'package:restaurant_app/widgets/error_handling.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 

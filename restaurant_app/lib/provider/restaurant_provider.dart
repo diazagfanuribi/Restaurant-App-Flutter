@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/api/api_service..dart';
 import 'package:restaurant_app/data/detail_restaurant.dart';
 import 'package:restaurant_app/data/search_result.dart';
+import 'package:restaurant_app/utils/result_state.dart';
 
 import '../data/restaurant.dart';
-
-enum ResultState { Loading, NoData, HasData, Error }
 
 class RestaurantProvider extends ChangeNotifier {
   final ApiService apiService;

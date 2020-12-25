@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service..dart';
 import 'package:restaurant_app/data/detail_restaurant.dart';
+import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/utils/result_state.dart';
 import 'package:restaurant_app/widgets/error_handling.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
@@ -78,9 +80,15 @@ class DetailView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                detailRestaurant.restaurant.name,
-                style: Theme.of(context).textTheme.headline6,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    detailRestaurant.restaurant.name,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  _buildIcon(detailRestaurant.restaurant)
+                ],
               ),
               Divider(color: Colors.grey),
               Text(
@@ -109,6 +117,28 @@ class DetailView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildIcon(Restaurant restaurant) {
+    return Consumer<DatabaseProvider>(
+      builder: (context, provider, child) {
+        return FutureBuilder<bool>(
+          future: provider.isBookmarked(restaurant.id),
+          builder: (context, snapshot) {
+            var isBookmarked = snapshot.data ?? false;
+            return isBookmarked
+                ? IconButton(
+                    icon: Icon(Icons.bookmark),
+                    onPressed: () => {provider.removeBookmark(restaurant.id)},
+                  )
+                : IconButton(
+                    icon: Icon(Icons.bookmark_border),
+                    onPressed: () => {provider.addBookmark(restaurant)},
+                  );
+          },
+        );
+      },
     );
   }
 }

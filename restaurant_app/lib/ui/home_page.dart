@@ -5,6 +5,7 @@ import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/ui/favorite_restaurant.dart';
 import 'package:restaurant_app/ui/profile.dart';
+import 'package:restaurant_app/ui/scheduler_list.dart';
 import 'package:restaurant_app/ui/search_restaurant.dart';
 import 'package:restaurant_app/utils/background_service.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
@@ -25,19 +26,10 @@ class _HomePageState extends State<HomePage> {
   int _bottomNavIndex = 0;
 
   List<Widget> _listWidget = [
-    ChangeNotifierProvider<RestaurantProvider>(
-      child: ListRestaurant(),
-      create: (_) => RestaurantProvider(apiService: ApiService()),
-    ),
-    ChangeNotifierProvider<RestaurantProvider>(
-      child: SearchRestaurant(),
-      create: (_) => RestaurantProvider(apiService: ApiService()),
-    ),
+    ListRestaurant(),
+    SearchRestaurant(),
     FavoriteRestaurant(),
-    ChangeNotifierProvider<SchedulingProvider>(
-      create: (_) => SchedulingProvider(),
-      child: Profile(),
-    )
+    Profile()
   ];
 
   List<BottomNavigationBarItem> _bottomNavBarItems = [
@@ -84,7 +76,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     port.listen((_) async => await _service.someTask());
     _notificationHelper
-        .configureSelectNotificationSubject(ListRestaurant.routeName);
+        .configureSelectNotificationSubject(SchedulerList.routeName);
   }
 
   @override

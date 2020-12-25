@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/provider/preferences_provider.dart';
 import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/widgets/custom_dialog.dart';
 import 'package:restaurant_app/widgets/error_handling.dart';
@@ -37,37 +38,41 @@ class Profile extends StatelessWidget {
                       topRight: Radius.circular(24),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      Material(
-                        child: ListTile(
-                          title: Text('Dark Theme'),
-                          trailing: Switch.adaptive(
-                              value: false,
-                              onChanged: (value) => customDialog(context)),
-                        ),
-                      ),
-                      Material(
-                        child: ListTile(
-                          title: Text('Daily Notification'),
-                          trailing: Consumer<SchedulingProvider>(
-                            builder: (context, scheduled, _) {
-                              return Switch.adaptive(
-                                value: scheduled.isScheduled,
-                                onChanged: (value) async {
-                                  if (Platform.isIOS) {
-                                    customDialog(context);
-                                  } else {
-                                    scheduled.scheduledNews(value);
-                                  }
-                                },
-                              );
-                            },
+                  child: Consumer<PreferencesProvider>(
+                      builder: (context, provider, child) {
+                    return Column(
+                      children: [
+                        Material(
+                          child: ListTile(
+                            title: Text('Dark Theme'),
+                            trailing: Switch.adaptive(
+                                value: false,
+                                onChanged: (value) => customDialog(context)),
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                        Material(
+                          child: ListTile(
+                            title: Text('Daily Notification'),
+                            trailing: Consumer<SchedulingProvider>(
+                              builder: (context, scheduled, _) {
+                                return Switch.adaptive(
+                                  value: provider.isDailyNewsActive,
+                                  onChanged: (value) async {
+                                    if (Platform.isIOS) {
+                                      customDialog(context);
+                                    } else {
+                                      scheduled.scheduledNews(value);
+                                      provider.enableDailyNews(value);
+                                    }
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    );
+                  }),
                 ),
                 Center(
                   child: Column(

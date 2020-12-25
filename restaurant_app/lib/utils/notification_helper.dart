@@ -44,7 +44,7 @@ class NotificationHelper {
       Result result) async {
     var _channelId = "1";
     var _channelName = "channel_01";
-    var _channelDescription = "dicoding news channel";
+    var _channelDescription = "restaurant channel";
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         _channelId, _channelName, _channelDescription,
@@ -57,7 +57,7 @@ class NotificationHelper {
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
-    var titleNotification = "<b>Headline News</b>";
+    var titleNotification = "<b>Restaurant Update</b>";
     var titleNews = result.restaurants[0].name;
 
     await flutterLocalNotificationsPlugin.show(
@@ -68,9 +68,9 @@ class NotificationHelper {
   void configureSelectNotificationSubject(String route) {
     selectNotificationSubject.stream.listen(
       (String payload) async {
-        var data = Result.fromJson(json.decode(payload));
-        var article = data.restaurants;
-        Navigation.intentWithData(route, article);
+        var data = Result.fromJsonDb(json.decode(payload));
+        var restaurant = data.restaurants..shuffle();
+        Navigation.intentWithData(route, restaurant);
       },
     );
   }

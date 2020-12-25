@@ -39,10 +39,8 @@ class Restaurant {
     this.city,
     this.address,
     this.pictureId,
-    this.categories,
     this.menus,
     this.rating,
-    this.customerReviews,
   });
 
   String id;
@@ -51,10 +49,8 @@ class Restaurant {
   String city;
   String address;
   String pictureId;
-  List<Category> categories;
   Menus menus;
   double rating;
-  List<CustomerReview> customerReviews;
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
         id: json["id"],
@@ -64,26 +60,30 @@ class Restaurant {
         address: json["address"],
         pictureId: "https://restaurant-api.dicoding.dev/images/medium/" +
             json["pictureId"],
-        categories: List<Category>.from(
-            json["categories"].map((x) => Category.fromJson(x))),
         menus: Menus.fromJson(json["menus"]),
         rating: json["rating"].toDouble(),
-        customerReviews: List<CustomerReview>.from(
-            json["customerReviews"].map((x) => CustomerReview.fromJson(x))),
+      );
+
+  factory Restaurant.fromJsonDb(Map<String, dynamic> data) => Restaurant(
+        id: data["id"],
+        name: data["name"],
+        description: data["description"],
+        city: data["city"],
+        address: data["address"],
+        pictureId: data["pictureId"],
+        rating: data["rating"].toDouble(),
+        menus: Menus.fromJson(json.decode(data["menus"])),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "description": description,
         "city": city,
         "address": address,
+        "description": description,
         "pictureId": pictureId,
-        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
-        "menus": menus.toJson(),
         "rating": rating,
-        "customerReviews":
-            List<dynamic>.from(customerReviews.map((x) => x.toJson())),
+        "menus": json.encode(menus.toJson()),
       };
 }
 
