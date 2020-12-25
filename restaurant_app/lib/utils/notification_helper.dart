@@ -58,10 +58,10 @@ class NotificationHelper {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
     var titleNotification = "<b>Restaurant Update</b>";
-    var titleNews = "Restaurant Updated";
+    var titleUpdate = "Restaurant Update";
 
     await flutterLocalNotificationsPlugin.show(
-        0, titleNotification, titleNews, platformChannelSpecifics,
+        0, titleNotification, titleUpdate, platformChannelSpecifics,
         payload: json.encode(result.toJson()));
   }
 

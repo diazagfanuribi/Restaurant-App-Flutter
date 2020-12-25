@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/common/navigation.dart';
-import 'package:restaurant_app/data/restaurant.dart';
-import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
-import 'package:restaurant_app/ui/detail_restaurant.dart';
 import 'package:restaurant_app/utils/result_state.dart';
 import 'package:restaurant_app/widgets/error_handling.dart';
 import 'package:restaurant_app/widgets/list_tile_restaurant.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class ListRestaurant extends StatelessWidget {
   static const routeName = '/list_restaurant';

@@ -5,22 +5,22 @@ class PreferencesProvider extends ChangeNotifier {
   PreferencesHelper preferencesHelper;
 
   PreferencesProvider({@required this.preferencesHelper}) {
-    _getDailyNewsPreferences();
+    _getDailyUpdatePreferences();
   }
 
   bool _isDarkTheme = false;
   bool get isDarkTheme => _isDarkTheme;
 
-  bool _isDailyNewsActive = false;
-  bool get isDailyNewsActive => _isDailyNewsActive;
+  bool _isDailyUpdateActive = false;
+  bool get isDailyUpdateActive => _isDailyUpdateActive;
 
-  void _getDailyNewsPreferences() async {
-    _isDailyNewsActive = await preferencesHelper.isDailyNewsActive;
+  void _getDailyUpdatePreferences() async {
+    _isDailyUpdateActive = await preferencesHelper.isDailyUpdateActive;
     notifyListeners();
   }
 
-  void enableDailyNews(bool value) {
-    preferencesHelper.setDailyNews(value);
-    _getDailyNewsPreferences();
+  void enableDailyUpdate(bool value) {
+    preferencesHelper.setDailyUpdate(value);
+    _getDailyUpdatePreferences();
   }
 }

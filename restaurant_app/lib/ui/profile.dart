@@ -13,7 +13,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.cyan,
         appBar: AppBar(
           title: Text('Profile'),
         ),
@@ -55,13 +55,13 @@ class Profile extends StatelessWidget {
                             trailing: Consumer<SchedulingProvider>(
                               builder: (context, scheduled, _) {
                                 return Switch.adaptive(
-                                  value: provider.isDailyNewsActive,
+                                  value: provider.isDailyUpdateActive,
                                   onChanged: (value) async {
                                     if (Platform.isIOS) {
                                       customDialog(context);
                                     } else {
-                                      scheduled.scheduledNews(value);
-                                      provider.enableDailyNews(value);
+                                      scheduled.scheduledUpdate(value);
+                                      provider.enableDailyUpdate(value);
                                     }
                                   },
                                 );
