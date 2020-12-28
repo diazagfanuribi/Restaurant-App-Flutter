@@ -1,10 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:restaurant_app/data/api/api_service..dart';
-import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/data/restaurant.dart';
 
 void main() {
