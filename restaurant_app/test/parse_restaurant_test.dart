@@ -1,12 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:restaurant_app/data/api/api_service..dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/data/restaurant.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   test('Check json parse from API work', () async {
-    var provider = RestaurantProvider(apiService: ApiService());
-
-    await provider.fetchAllRestaurant();
+    final response = await rootBundle.loadString('assets/list_restauran.json');
+    Result output = Result.fromJson(json.decode(response));
 
     var id = [
       "rqdv5juczeskfw1e867",
@@ -31,7 +36,7 @@ void main() {
       "vfsqv0t48jkfw1e867"
     ];
 
-    for (var json in provider.result.restaurants) {
+    for (var json in output.restaurants) {
       print(id.contains(json.id));
       expect(true, id.contains(json.id));
     } // Skenario pengujian dituliskan di sini
